@@ -30,7 +30,6 @@ module "create_instances" {
 
 # resources
 resource "aws_eip" "ip" {
-  # instance = "${module.create_instances.aws_instance.ubuntu.ip}"
   instance = "${module.create_instances.publicIP}"
 }
 
