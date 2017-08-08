@@ -53,4 +53,5 @@ resource "aws_security_group" "allow_ssh" {
 # outputs
 output "ip" {
   value = "${aws_eip.ip.public_ip}"
+  value = "${aws_eip.ip.private_ip}"
 }
