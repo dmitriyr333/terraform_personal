@@ -14,9 +14,9 @@ variable "cidrs" {
 
 # providers
 provider "aws" {
-  access_key = "${var.access_key}"
-  secret_key = "${var.secret_key}"
-  region     = "${var.region}"
+  shared_credentials_file = "/Users/dmitriyrozentsvay/.aws/credentials"
+  profile                 = "personal"
+  region                  = "${var.region}"
 }
 
 
