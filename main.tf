@@ -36,7 +36,6 @@ resource "aws_instance" "ubuntu" {
 #   key_name = "${var.key_name}"
 # }
 
-resources
 resource "aws_eip" "ip" {
   instance = "${aws_instance.ubuntu.id}"
 }
@@ -62,7 +61,6 @@ EOF
 }
 
 
-# outputs
-# output "eip_ip" {
-#   value = "${aws_eip.ip}.${name_of_ec2}.public_ip"
-# }
+output "eip_ip" {
+  value = "${aws_eip.ip.ubuntu.public_ip}"
+}
