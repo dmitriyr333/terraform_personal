@@ -4,6 +4,8 @@ variable "secret_key" {}
 variable "region" {}
 variable "ami" {}
 variable "key_name" {}
+variable "param_name" {}
+variable "param_store_key" {}
 
 variable "cidrs" {
   type = "list"
@@ -25,7 +27,7 @@ resource "aws_instance" "ubuntu" {
   instance_type = "t2.micro"
   ami = "${var.ami}"
   tags {
-    Name = "terraforming"
+    Name = "${var.param_name}"
   }
   key_name = "${var.key_name}"
 }
@@ -40,47 +42,39 @@ resource "aws_instance" "ubuntu" {
 #   instance = "${aws_instance.ubuntu.id}"
 # }
 
+data "aws_iam_policy_document" "access_to_ssm_params" {
+  statement {
+    actions = [ 
+      "ssm:GetParameters",
+    ]
+    resources = [
+      "arn:aws:ssm:*:*:parameter/${var.param_name}.*",
+    ]
+  }
+  statement {
+    actions = [ 
+      "kms:Describe*",
+      "kms:Decrypt",
+      "kms:ListKeys",
+      "kms:ListAliases",
+    ]
+    resources = [
+      "${var.param_store_key}",
+    ]
+  }
+}
 
 # resource "aws_iam_role" "ubuntu_role" {
 #   name = "ubuntu_role"
-
-#   assume_role_policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Action": "ssm:GetParameters",
-#       "Principal": {
-#         "Service": "ec2.amazonaws.com"
-#       },
-#       "Effect": "Allow",
-#       "Resource": "arn:aws:ssm:*:*:parameter/ubuntu.*"
-      
-#     }
-#   ]
-# }
-# EOF
+#   path = "/"
+#   policy = "${data.aws_iam_policy_document.access_to_ssm_params.json}"
 # }
 
-resource "aws_iam_role" "test_role" {
-  name = "test_role"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+data "aws_ssm_parameter" "website" {
+  name  = "WEBSITE.someOrOtherSecret"
 }
-EOF
-}
+
 
 # output "eip_ip" {
 #   value = "${aws_eip.ip.ubuntu.public_ip}"
