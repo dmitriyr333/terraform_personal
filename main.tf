@@ -4,6 +4,7 @@ variable "ami" {}
 variable "key_name" {}
 variable "param_name" {}
 variable "param_store_key" {}
+variable "database_master_password" {}
 
 variable "cidrs" {
   type = "list"
@@ -69,8 +70,10 @@ data "aws_iam_policy_document" "access_to_ssm_params" {
 # }
 
 
-data "aws_ssm_parameter" "website" {
-  name  = "WEBSITE.someOrOtherSecret"
+resource "aws_ssm_parameter" "secret" {
+  name  = "database/password/master"
+  type  = "SecureString"
+  value = "${var.database_master_password}"
 }
 
 
