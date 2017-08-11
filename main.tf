@@ -1,6 +1,4 @@
 # init variables
-variable "access_key" {}
-variable "secret_key" {}
 variable "region" {}
 variable "ami" {}
 variable "key_name" {}
@@ -16,9 +14,9 @@ variable "cidrs" {
 
 # providers
 provider "aws" {
-  access_key = "${var.access_key}"
-  secret_key = "${var.secret_key}"
-  region     = "${var.region}"
+  region                  = "${var.region}"
+  shared_credentials_file = "/Users/dmitriyrozentsvay/.aws/credentials"
+  profile                 = "personal"
 }
 
 resource "aws_instance" "ubuntu" {
