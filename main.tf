@@ -30,6 +30,22 @@ resource "aws_instance" "ubuntu" {
   }
   key_name = "${var.key_name}"
 }
+
+resource "aws_security_group" "allow_ssh" {
+  name = "allow_ssh"
+  description = "ssh into ec2"
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    name = "allow_ssh"
+  }
+}
 # # modules
 # module "create_instances" {
 #   source   = "../modules"
@@ -37,9 +53,9 @@ resource "aws_instance" "ubuntu" {
 #   key_name = "${var.key_name}"
 # }
 
-# resource "aws_eip" "ip" {
-#   instance = "${aws_instance.ubuntu.id}"
-# }
+resource "aws_eip" "ip" {
+  instance = "${aws_instance.ubuntu.id}"
+}
 
 data "aws_iam_policy_document" "access_to_ssm_params" {
   statement {
@@ -71,12 +87,13 @@ data "aws_iam_policy_document" "access_to_ssm_params" {
 
 
 resource "aws_ssm_parameter" "secret" {
-  name  = "database/password/master"
+  # name  = "database/password/master"
+  name  = "database"
   type  = "SecureString"
   value = "${var.database_master_password}"
 }
 
 
-# output "eip_ip" {
-#   value = "${aws_eip.ip.ubuntu.public_ip}"
-# }
+output "eip_ip" {
+  value = "${aws_eip.ip.ubuntu.public_ip}"
+}
