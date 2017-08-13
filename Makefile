@@ -13,3 +13,6 @@ apply-personal: ## WARNING: apply with "personal" variables
 
 destroy-personal: ## WARNING: Nuke TF with "personal" variables
 	terraform destroy -var-file=env/personal.tfvars
+
+build-docker: ## building docker container for Atlantis
+	docker build -t atlantis -f Dockerfile .
