@@ -1,0 +1,4 @@
+extra_arguments:
+  - command: plan
+    arguments:
+    - "-tfvars=env/personal.tfvars"
