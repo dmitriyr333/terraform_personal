@@ -97,7 +97,7 @@ resource "aws_ssm_parameter" "secret_db_user" {
   # name  = "database/password/master"
   name  = "database"
   type  = "String"
-  value = "some_user"
+  value = "some_userdb"
 }
 
 
