@@ -86,11 +86,18 @@ data "aws_iam_policy_document" "access_to_ssm_params" {
 # }
 
 
-resource "aws_ssm_parameter" "secret" {
+resource "aws_ssm_parameter" "secret_db_pwd" {
   # name  = "database/password/master"
   name  = "database"
   type  = "SecureString"
   value = "${var.database_master_password}"
+}
+
+resource "aws_ssm_parameter" "secret_db_user" {
+  # name  = "database/password/master"
+  name  = "database"
+  type  = "String"
+  value = "some_user"
 }
 
 
