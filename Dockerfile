@@ -10,8 +10,8 @@ RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_V
 RUN unzip terraform_0.10.0_linux_amd64.zip -d /usr/local/bin
 
 # ngrok
-RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip 
-RUN unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
+#RUN wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip 
+#RUN unzip ngrok-stable-linux-amd64.zip -d /usr/local/bin
 
 # atlantis
 RUN git clone https://github.com/hootsuite/atlantis.git /opt/atlantis
