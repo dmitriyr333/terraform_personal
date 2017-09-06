@@ -95,7 +95,7 @@ resource "aws_ssm_parameter" "secret_db_pwd" {
 
 resource "aws_ssm_parameter" "secret_db_user" {
   # name  = "database/password/master"
-  name  = "database"
+  name  = "database.1"
   type  = "String"
   value = "some_userdb"
 }
